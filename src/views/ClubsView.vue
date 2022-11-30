@@ -24,7 +24,7 @@ export default {
 
   methods: {
     async fetchClubs() {
-      const response = await fetch("http://localhost:1000/api/clubs");
+      const response = await fetch("http://192.168.1.30:1000/api/clubs");
       const clubs = await response.json();
       this.clubs = clubs;
 

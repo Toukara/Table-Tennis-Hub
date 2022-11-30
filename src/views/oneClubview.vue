@@ -8,7 +8,7 @@
           <p class="club-address">Adresse : {{ club.address }}</p>
           <div class="buttons">
             <button v-if="copyStatus === false" class="button toCopy is-info" @click="copy(club.address)">Copier Adresse</button>
-            <button v-else class="button copied is-success" @click="copy(club.address)">Copié</button>
+            <button v-else class="button copied is-success" @click="copy(club.address)" @focus="copy(club.address)">Copié</button>
             <button class="button toMap" @click="goToMaps(club.address)">Aller sur Maps&copysr;</button>
           </div>
 
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="playersCount">
-      <p>Nombre de joueurs : {{ players.length }}</p>
+      <p>Nombre de Licenciés : {{ players.length }}</p>
     </div>
     <div class="search">
       <input class="input" type="text" />
@@ -51,7 +51,7 @@ export default {
 
   methods: {
     async fetchClub() {
-      const response = await fetch(`http://localhost:1000/api/clubs/${this.$route.params.id}`);
+      const response = await fetch(`http://192.168.1.30:1000/api/clubs/${this.$route.params.id}`);
       const club = await response.json();
       this.club = club;
 
@@ -59,7 +59,7 @@ export default {
     },
 
     async fetchPlayers(clubID) {
-      const response = await fetch(`http://localhost:1000/api/clubs/${clubID}/players`);
+      const response = await fetch(`http://192.168.1.30:1000/api/clubs/${clubID}/players`);
       const players = await response.json();
       this.players = players;
 
@@ -135,4 +135,3 @@ export default {
   max-width: 25vw;
 }
 </style>
- 

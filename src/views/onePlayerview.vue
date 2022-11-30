@@ -23,17 +23,22 @@
               <p class="player-points">Points débuts de saison: {{ player.points.start }}</p>
               <p class="player-points">Points actuels: {{ player.points.officiels }}</p>
             </div>
+            <div class="separation"></div>
             <div class="progression">
               <p class="player-progression">
                 Progression mensuelle:
                 <span v-if="player.points.monthlyProgression >= 0" class="text is-positif"> {{ player.points.monthlyProgression }} </span>
-                <span v-else class="text is-danger"> {{ player.points.monthlyProgression }} </span>
+                <span v-else class="text is-negatif"> {{ player.points.monthlyProgression }} </span>
               </p>
               <p class="player-progression">
-                Progression mensuelle:
+                Progression annuelle:
                 <span v-if="player.points.monthlyProgression >= 0" class="text is-positif"> {{ player.points.allProgression }} </span>
-                <span v-else class="text is-danger"> {{ player.points.allProgression }} </span>
+                <span v-else class="text is-negatif"> {{ player.points.allProgression }} </span>
               </p>
+              <p class="player-progression"></p>
+            </div>
+            <div class="Pie">
+              <canvas id="myChart" class="chart"></canvas>
             </div>
             <!-- ADD A DATA PIE/ DONUTS  -->
           </div>
@@ -45,6 +50,7 @@
 
 <script>
 import TheHeader from "@/components/TheHeader.vue";
+import Chart from "chart.js/auto";
 
 export default {
   name: "PlayerView",
@@ -56,10 +62,33 @@ export default {
       player: {},
     };
   },
+  mounted() {
+    const ctx = document.getElementById("myChart");
+
+    const data = {
+      labels: ["Victoires", "Défaites"],
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
+      datasets: [
+        {
+          data: [10, 20],
+          backgroundColor: ["#48c774", "#ff3860"],
+          hoverOffset: 4,
+        },
+      ],
+    };
+
+    new Chart(ctx, {
+      type: "pie",
+      data: data,
+    });
+  },
 
   methods: {
     async fetchPlayer() {
-      const response = await fetch(`http://localhost:1000/api/players/${this.$route.params.id}`);
+      const response = await fetch(`http://192.168.1.30:1000/api/players/${this.$route.params.id}`);
       const player = await response.json();
       this.player = player;
 
@@ -79,13 +108,13 @@ export default {
   font: bold;
 }
 
-.is-negative {
+.is-negatif {
   color: rgb(255, 0, 0);
   font: bold;
 }
 
 .card-header {
-  background-color: rgb(89, 86, 223);
+  background-color: rgb(62, 142, 208);
   box-shadow: none;
 }
 
@@ -129,10 +158,41 @@ a {
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 2.5vw;
+  gap: 1.5vw;
 }
 
 .player-datas > * {
   margin-top: 0.5rem;
+}
+
+.separation {
+  width: 3px;
+  height: auto;
+  max-height: 125px;
+  background: rgba(57, 57, 57, 0.267);
+}
+
+.Pie {
+  margin-right: auto;
+
+  width: 230px;
+  height: 230px;
+  margin-top: -8px;
+}
+
+@media (max-width: 768px) {
+  .player-datas {
+    flex-direction: column;
+  }
+  .separation {
+    display: none;
+  }
+  .Pie {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    width: 230px;
+    height: 230px;
+  }
 }
 </style>

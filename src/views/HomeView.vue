@@ -8,19 +8,16 @@
       <router-link class="button is-info" :to="{ name: 'clubs' }"> Clubs </router-link>
     </div>
   </div>
-  <TheFooter />
 </template>
 
 <script>
 // @ is an alias to /src
 import TheHeader from "@/components/TheHeader.vue";
-import TheFooter from "@/components/TheFooter.vue";
 
 export default {
   name: "HomeView",
   components: {
     TheHeader,
-    TheFooter,
   },
 };
 </script>

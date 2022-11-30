@@ -24,7 +24,7 @@ export default {
 
   methods: {
     async fetchPlayers() {
-      const response = await fetch("http://localhost:1000/api/players");
+      const response = await fetch("http://192.168.1.30:1000/api/players");
       const players = await response.json();
       this.players = players;
 
