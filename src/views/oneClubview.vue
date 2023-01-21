@@ -7,33 +7,39 @@
           <h1 class="club-name">{{ club.name }}</h1>
           <p class="club-address">Adresse : {{ club.address }}</p>
           <div class="buttons">
-            <button v-if="copyStatus === false" class="button toCopy is-info" @click="copy(club.address)">Copier Adresse</button>
-            <button v-else class="button copied is-success" @click="copy(club.address)" @focus="copy(club.address)">Copié</button>
+            <button class="button" :class="[copyStatus ? 'is-success' : 'is-info']" @click="copy(club.address)">
+              {{ copyStatus ? "Copié" : "Copier l'adresse" }}
+            </button>
             <button class="button toMap" @click="goToMaps(club.address)">Aller sur Maps&copysr;</button>
           </div>
 
           <div class="contacts">
             <p>{{ club.contacts.name }}</p>
-            <a :href="`mailto:${club.contacts.email}`">{{ club.contacts.email }}</a>
-            <a :href="`tel:${club.contacts.phone}`">{{ club.contacts.phone }}</a>
+            <div class="contacts-email">
+              <i class="fa-solid fa-envelope"></i>
+              <a :href="`mailto:${club.contacts.email}`"> {{ club.contacts.email }}</a>
+            </div>
+            <div class="contacts-phone">
+              <i class="fa-solid fa-phone"></i>
+              <a :href="`tel:${club.contacts.phone}`">{{ club.contacts.phone }}</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="playersCount">
       <p>Nombre de Licenciés : {{ players.length }}</p>
+      <div class="buttons">
+        <button class="button" :class="[exportStatus ? 'is-success' : 'is-info']" @click="exportPlayers()">Exporter les joueurs</button>
+      </div>
     </div>
-    <div class="search">
-      <input class="input" type="text" />
-      <button class="button is-info">Rechercher</button>
-    </div>
-    <PlayersTable :players="players" />
+    <PlayersTable :items="players" itemType="players" />
   </div>
 </template>
 
 <script>
 import TheHeader from "@/components/TheHeader.vue";
-import PlayersTable from "@/components/PlayersTable.vue";
+import PlayersTable from "@/components/ItemsTable.vue";
 
 export default {
   name: "ClubView",
@@ -46,12 +52,13 @@ export default {
       club: {},
       players: [],
       copyStatus: false,
+      exportStatus: false,
     };
   },
 
   methods: {
     async fetchClub() {
-      const response = await fetch(`http://192.168.1.30:1000/api/clubs/${this.$route.params.id}`);
+      const response = await fetch(`http://127.0.0.1:1000/api/clubs/${this.$route.params.id}`);
       const club = await response.json();
       this.club = club;
 
@@ -59,7 +66,7 @@ export default {
     },
 
     async fetchPlayers(clubID) {
-      const response = await fetch(`http://192.168.1.30:1000/api/clubs/${clubID}/players`);
+      const response = await fetch(`http://127.0.0.1:1000/api/clubs/${clubID}/players`);
       const players = await response.json();
       this.players = players;
 
@@ -78,6 +85,15 @@ export default {
 
     goToMaps(element) {
       window.open(`https://www.google.com/maps/search/?api=1&query=${element}`, "_blank");
+    },
+
+    async exportPlayers() {
+      try {
+        alert("Exporting players");
+        this.exportStatus = true;
+      } catch (err) {
+        console.error("Failed to export: ", err);
+      }
     },
   },
 
@@ -105,6 +121,7 @@ export default {
 
 .card {
   margin-bottom: 1rem;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
 .club-name {
   font-size: 1.5rem;
@@ -122,16 +139,18 @@ export default {
   margin-bottom: 0.5rem;
 }
 
-.search {
+.contacts > div {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  gap: 4px;
-
-  margin-top: 1rem;
+  align-items: center;
+  gap: 8px;
 }
 
-.input {
-  max-width: 25vw;
+.playersCount {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 </style>
