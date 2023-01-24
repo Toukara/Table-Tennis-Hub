@@ -21,7 +21,7 @@
             </div>
             <div class="contacts-phone">
               <i class="fa-solid fa-phone"></i>
-              <a :href="`tel:${club.contacts.phone}`">{{ club.contacts.phone }}</a>
+              <a :href="`tel:${club.contacts.phone}`">{{ PhoneNumber(club.contacts.phone) }}</a>
             </div>
           </div>
         </div>
@@ -94,6 +94,14 @@ export default {
       } catch (err) {
         console.error("Failed to export: ", err);
       }
+    },
+
+    PhoneNumber(number) {
+      let regex = /[0]{1}[1-7]{1}[0-9]{8}/;
+      let result = number.match(regex);
+
+      if (result) return result[0].replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1 $2 $3 $4 $5");
+      else return number;
     },
   },
 

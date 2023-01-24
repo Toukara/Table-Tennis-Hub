@@ -2,7 +2,7 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <router-link class="navbar-item" :to="{ name: 'home' }">
-        <img src="@/assets/logo.png" width="30" height="28" />
+        <img src="@/assets/logo.svg" width="30" height="28" />
       </router-link>
     </div>
 
@@ -19,7 +19,7 @@
             <router-link class="navbar-item" :to="{ name: 'players' }"> Joueurs </router-link>
             <router-link class="navbar-item" :to="{ name: 'clubs' }"> Clubs </router-link>
             <hr class="navbar-divider" />
-            <a class="navbar-item"> Report an issue </a>
+            <router-link class="navbar-item" :to="{ name: 'rick' }"> Report an issue </router-link>
           </div>
         </div>
       </div>

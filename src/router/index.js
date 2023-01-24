@@ -2,8 +2,8 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import PlayersView from "../views/PlayersView.vue";
 import ClubsView from "../views/ClubsView.vue";
-import PlayerView from "../views/onePlayerview.vue";
-import ClubView from "../views/oneClubview.vue";
+import PlayerView from "../views/PlayerPage.vue";
+import ClubView from "../views/ClubPage.vue";
 
 const routes = [
   {
@@ -31,6 +31,11 @@ const routes = [
     path: "/club/:id",
     name: "club",
     component: ClubView,
+  },
+  {
+    path: "/rick",
+    name: "rick",
+    component: () => import("../views/RickView.vue"),
   },
 ];
 

@@ -2,7 +2,7 @@
   <TheHeader />
   <div class="container">
     <p>Clubs</p>
-    <ClubsTable :items="clubs" />
+    <ClubsTable :items="clubs" itemType="clubs" />
   </div>
 </template>
 
