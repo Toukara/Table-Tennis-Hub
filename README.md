@@ -1,4 +1,4 @@
-# Lorem Impsum
+# Table Tennis Hub
 
 This website is still in development. That means that it is not yet ready for public use.
 
