@@ -21,9 +21,11 @@
           <div class="player-datas">
             <div class="points">
               <p class="player-points">Classement : {{ player.points.classement }}</p>
-              <p class="player-points">Points débuts de saison: {{ player.points.start }}</p>
+              <p class="player-points">Début de Saison : {{ player.points.firstPhase }}</p>
+              <p class="player-points">Début de phase {{ player.points.firstPhase ? "2:" + player.points.secondPhase : "1:" + player.points.firstPhase }}</p>
               <p class="player-points">Points actuels: {{ player.points.officiels }}</p>
             </div>
+
             <div class="separation"></div>
             <div class="progression">
               <p class="player-progression">
@@ -37,10 +39,15 @@
                 <span v-else class="text is-negatif"> {{ player.points.allProgression }} </span>
               </p>
               <p class="player-progression"></p>
+              <p class="player-progression">
+                Progression mensuelle:
+                <span v-if="player.points.monthlyProgression >= 0" class="text is-positif"> {{ player.points.monthlyProgression }} </span>
+                <span v-else class="text is-negatif"> {{ player.points.monthlyProgression }} </span>
+              </p>
             </div>
-            <div class="Pie">
+            <!-- <div class="Pie">
               <canvas id="myChart" class="chart"></canvas>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

@@ -1,41 +1,40 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import PlayersView from "../views/PlayersView.vue";
-import ClubsView from "../views/ClubsView.vue";
-import PlayerView from "../views/PlayerPage.vue";
-import ClubView from "../views/ClubPage.vue";
 
 const routes = [
   {
     path: "/",
     name: "home",
-    component: HomeView,
+    component: () => import("../views/HomeView.vue"),
   },
   {
     path: "/players",
     name: "players",
-    component: PlayersView,
+    component: () => import("../views/PlayersView.vue"),
   },
   {
     path: "/player/:id",
     name: "player",
-    component: PlayerView,
-    alias: "/joueur/:id",
+    component: () => import("../views/PlayerPage.vue"),
   },
   {
     path: "/clubs",
     name: "clubs",
-    component: ClubsView,
+    component: () => import("../views/ClubsView.vue"),
   },
   {
     path: "/club/:id",
     name: "club",
-    component: ClubView,
+    component: () => import("../views/ClubPage.vue"),
   },
   {
     path: "/rick",
     name: "rick",
     component: () => import("../views/RickView.vue"),
+  },
+  {
+    path: "/news",
+    name: "news",
+    component: () => import("../views/NewsView.vue"),
   },
 ];
 

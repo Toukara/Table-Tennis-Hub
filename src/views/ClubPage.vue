@@ -27,10 +27,22 @@
         </div>
       </div>
     </div>
+
     <div class="playersCount">
       <p>Nombre de Licenciés : {{ players.length }}</p>
       <div class="buttons">
-        <button class="button" :class="[exportStatus ? 'is-success' : 'is-info']" @click="exportPlayers()">Exporter les joueurs</button>
+        <button class="button" :class="[exportStatus ? 'is-success' : 'is-info']" @click="exportPlayers()">
+          {{ exportStatus ? "Exporté" : "Exporter les joueurs" }}
+        </button>
+        <div class="select">
+          <select name="" id="" @change="changeDownloadType($event)">
+            <option value="csv">CSV</option>
+            <option value="xlsx">XLSX</option>
+            <option value="json">JSON</option>
+            <option value="docx">DOCX</option>
+          </select>
+        </div>
+        {{ downloadType.toUpperCase() }}
       </div>
     </div>
     <PlayersTable :items="players" itemType="players" />
@@ -38,7 +50,7 @@
 </template>
 
 <script>
-import TheHeader from "@/components/TheHeader.vue";
+import TheHeader from "@/components/Navbar.vue";
 import PlayersTable from "@/components/ItemsTable.vue";
 
 export default {
@@ -53,6 +65,7 @@ export default {
       players: [],
       copyStatus: false,
       exportStatus: false,
+      downloadType: "csv",
     };
   },
 
@@ -89,8 +102,18 @@ export default {
 
     async exportPlayers() {
       try {
-        alert("Exporting players");
         this.exportStatus = true;
+
+        let filePath = `/assets/players.xlsx`;
+
+        let a = document.createElement("a");
+        a.href = filePath;
+        a.download;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        console.log("Exported to file");
       } catch (err) {
         console.error("Failed to export: ", err);
       }
@@ -102,6 +125,11 @@ export default {
 
       if (result) return result[0].replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, "$1 $2 $3 $4 $5");
       else return number;
+    },
+
+    changeDownloadType(event) {
+      console.log(event);
+      this.downloadType = event.target.value;
     },
   },
 

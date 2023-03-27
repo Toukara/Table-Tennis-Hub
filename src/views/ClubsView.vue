@@ -1,20 +1,19 @@
 <template>
   <TheHeader />
   <div class="container">
-    <p>Clubs</p>
     <ClubsTable :items="clubs" itemType="clubs" />
   </div>
 </template>
 
 <script>
-import TheHeader from "@/components/TheHeader.vue";
+import TheHeader from "@/components/Navbar.vue";
 import ClubsTable from "@/components/ItemsTable.vue";
 
 export default {
   name: "ClubsView",
   components: {
-    ClubsTable,
     TheHeader,
+    ClubsTable,
   },
   data() {
     return {

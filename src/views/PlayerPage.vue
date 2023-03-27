@@ -1,12 +1,12 @@
 <template>
-  <TheHeader />
+  <TheHeader/>
   <PlayerCard :player="player" />
 </template>
 
 <script>
-import TheHeader from "@/components/TheHeader.vue";
-import Chart from "chart.js/auto";
+import TheHeader from "@/components/Navbar.vue";
 import PlayerCard from "@/components/PlayerCard.vue";
+import Chart from "chart.js/auto";
 
 export default {
   name: "PlayerView",

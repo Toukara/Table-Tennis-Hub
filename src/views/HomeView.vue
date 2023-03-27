@@ -2,7 +2,7 @@
   <TheHeader />
   <header>
     <div>
-      <h1 class="text is-title">Lorem ipsum dolor sit amet consectetur.</h1>
+      <h1 class="text is-title">PingPongPlus.</h1>
       <div class="header">
         <div class="blur">
           <div class="header-text">
@@ -17,109 +17,51 @@
     </div>
   </header>
   <main>
-    <div class="container">
-      <div class="addClub">
-        <label for="AddClub">Ajouter club</label>
-        <div class="inputs">
-          <input type="text" placeholder="Ex : 62783994" name="AddClub" id="addClub" class="input toAddNewClub" v-model="clubId" @keypress="isNumber" />
-          <button type="submit" class="button is-info" v-bind:class="{ 'is-loading': isActive }" @click="createClub(this.clubId)" :disabled="isLoading">
-            Submit !
-          </button>
+    <div class="components">
+      <AddClub />
+      <div class="component">
+        <div class="container">
+          <NewsComponent />
         </div>
       </div>
-      {{ clubId }}
+      <div class="component noBorders">
+        <div class="container">
+          <HowToAdd />
+        </div>
+      </div>
+      <div></div>
     </div>
   </main>
-
-  <div class="buttons">
-    <router-link class="button is-info" :to="{ name: 'players' }"> Joueurs </router-link>
-    <router-link class="button is-info" :to="{ name: 'clubs' }"> Clubs </router-link>
-  </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import TheHeader from "@/components/TheHeader.vue";
+import TheHeader from "@/components/Navbar.vue";
+import AddClub from "@/components/AddClub.vue";
+import NewsComponent from "@/components/News.vue";
+import HowToAdd from "@/components/HowToAdd.vue";
 
 export default {
   name: "HomeView",
   components: {
     TheHeader,
-  },
-  data() {
-    return {
-      clubId: "",
-      isActive: false,
-    };
-  },
-  methods: {
-    async createClub(id) {
-      // Change the state of the button
-      this.isActive = true;
-
-      // Fetch the club
-      const response = await fetch(`http://127.0.0.1:1000/api/clubs/${id}`, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log(response.status);
-      if (response.status === 201) {
-        this.$router.push({ name: "club", params: { id: id } });
-      } else {
-        this.isActive = false;
-      }
-    },
-
-    isNumber($event) {
-      console.log($event.keyCode); //keyCodes value
-      let keyCode = $event.keyCode ? $event.keyCode : $event.which;
-      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
-        // 46 is dot
-        $event.preventDefault();
-      }
-    },
+    AddClub,
+    NewsComponent,
+    HowToAdd,
   },
 };
 </script>
 
 <style scoped lang="scss">
-.buttons {
+main {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 16px;
   width: 100%;
-  margin-top: 20px;
-}
+  margin: -3vh 0;
 
-.btn {
-  width: 200px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
-  background-image: linear-gradient(to right, #29323c, #485563);
-  box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
-  cursor: pointer;
-  margin: 20px;
-  height: 55px;
-  text-align: center;
-  border: none;
-  background-size: 300% 100%;
-
-  border-radius: 6px;
-  -o-transition: all 0.4s ease-in-out;
-  -webkit-transition: all 0.4s ease-in-out;
-  transition: all 0.4s ease-in-out;
-
-  &:hover {
-    background-position: 100% 0;
-    -o-transition: all 0.4s ease-in-out;
-    -webkit-transition: all 0.4s ease-in-out;
-    transition: all 0.4s ease-in-out;
-  }
+  background-color: rgba(245, 245, 245, 0.77);
 }
 
 .header {
@@ -135,6 +77,8 @@ export default {
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 20px;
+
+  z-index: 5;
 }
 
 .header {
@@ -160,8 +104,7 @@ export default {
 }
 
 .header-text {
-  // background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/opacity/see-through */
+  background-color: rgba(0, 0, 0, 0.4);
   color: rgb(255, 255, 255);
   font-weight: bold;
   border: 3px solid rgb(255, 255, 255);
@@ -199,39 +142,32 @@ export default {
   }
 }
 
-.part {
+.component {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
   width: 100%;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
+  margin: 10vh 0;
+  padding: 35px;
+
+  border-top: 1px solid rgb(36, 36, 36);
+  border-bottom: 1px solid rgb(36, 36, 36);
 }
 
-.toAddNewClub {
-  width: 30vw;
-}
-
-.addClub {
+.components {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: center;
   justify-content: center;
+  width: 100%;
+  margin: 8vh 0;
+
+  z-index: 3;
 }
 
-.inputs {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  justify-content: center;
-}
-
-label {
-  font-size: 18px;
-  font-weight: 500;
+.noBorders {
+  border-top: none;
+  border-bottom: none;
 }
 </style>

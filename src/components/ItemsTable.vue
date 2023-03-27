@@ -1,73 +1,79 @@
 <template>
-  <div class="container" v-if="this.itemType === 'players'">
-    <div class="search">
-      <p>Rechercher :</p>
-      <input type="text" v-model="search" class="input" placeholder="Ex: Dupont" />
-    </div>
-    <table class="table is-fullwidth">
-      <thead>
-        <tr>
-          <th @click="sort('firstname')" class="clickable">Nom</th>
-          <th @click="sort('lastname')" class="clickable">Prénom</th>
-          <th v-show="this.conditions == 'isGlobal'" @click="sort('club')" class="clickable">Club</th>
-          <th>Licence</th>
-          <th @click="sort('pts')" class="clickable">Points</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="player in sortItems" :key="player.id">
-          <td>
-            <router-link :to="{ name: 'player', params: { id: player.license } }">{{ player.firstname }}</router-link>
-          </td>
-          <td>
-            <router-link :to="{ name: 'player', params: { id: player.license } }">{{ player.lastname }}</router-link>
-          </td>
-          <td v-show="this.conditions == 'isGlobal'">
-            <router-link :to="{ name: 'club', params: { id: player.clubId } }">{{ player.clubName }}</router-link>
-          </td>
-          <td>
-            <router-link :to="{ name: 'player', params: { id: player.license } }">{{ player.license }}</router-link>
-          </td>
-          <td>
-            <router-link :to="{ name: 'player', params: { id: player.license } }">{{ player.points.officiels }}</router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div v-if="items.length === 0">
+    <h3>Aucun(s) {{ this.itemType === "players" ? "joueur.euse(s)" : "club(s)" }} n'a pu être trouvé(s)</h3>
   </div>
-
-  <div v-else-if="this.itemType === 'clubs'">
-    <div class="search">
-      <p>Rechercher :</p>
-      <input type="text" v-model="search" class="input" placeholder="Ex: Dupont" />
-    </div>
-    <table class="table is-fullwidth">
-      <thead>
-        <tr>
-          <th @click="sort('name')" class="clickable">Nom</th>
-          <th @click="sort('id')" class="clickable">ID</th>
-          <th>Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="club in sortItems" :key="club.id">
-          <td>
-            <router-link :to="{ name: 'club', params: { id: club.id } }">{{ club.name }}</router-link>
-          </td>
-          <td>
-            <router-link :to="{ name: 'club', params: { id: club.id } }">{{ club.id }}</router-link>
-          </td>
-          <td>
-            <router-link :to="{ name: 'club', params: { id: club.id } }">{{ club.address }}</router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
   <div v-else>
-    <p>Erreur</p>
+    <div class="container" v-if="this.itemType === 'players'">
+      <div class="search">
+        <p>Rechercher :</p>
+        <input type="text" v-model="search" class="input" placeholder="Ex: Dupont" />
+      </div>
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th @click="sort('firstname')" class="clickable">Nom</th>
+            <th @click="sort('lastname')" class="clickable">Prénom</th>
+            <th v-show="this.conditions == 'isGlobal'" @click="sort('club')" class="clickable">Club</th>
+            <th>Licence</th>
+            <th @click="sort('pts')" class="clickable">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="player in sortItems" :key="player.id">
+            <td>
+              <router-link :to="{ name: 'player', params: { id: player.license } }">{{ player.firstname }}</router-link>
+            </td>
+            <td>
+              <router-link :to="{ name: 'player', params: { id: player.license } }">{{ player.lastname }}</router-link>
+            </td>
+            <td v-show="this.conditions == 'isGlobal'">
+              <router-link :to="{ name: 'club', params: { id: player.clubId } }">{{ player.clubName }}</router-link>
+            </td>
+            <td>
+              <router-link :to="{ name: 'player', params: { id: player.license } }">{{ player.license }}</router-link>
+            </td>
+            <td>
+              <router-link :to="{ name: 'player', params: { id: player.license } }">{{ player.points.officiels }}</router-link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div v-else-if="this.itemType === 'clubs'">
+      <div class="search">
+        <p>Rechercher :</p>
+        <input type="text" v-model="search" class="input" placeholder="Ex: Dupont" />
+      </div>
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th @click="sort('name')" class="clickable">Nom</th>
+            <th @click="sort('id')" class="clickable">ID</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="club in sortItems" :key="club.id">
+            <td>
+              <router-link :to="{ name: 'club', params: { id: club.id } }">{{ club.name }}</router-link>
+            </td>
+            <td>
+              <router-link :to="{ name: 'club', params: { id: club.id } }">{{ club.id }}</router-link>
+            </td>
+            <td>
+              <router-link :to="{ name: 'club', params: { id: club.id } }">{{ club.address }}</router-link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div v-else>
+      <p>Erreur</p>
+    </div>
   </div>
+
+  <button @click="topFunction" class="button is-link toTop" id="GoToTop" />
 </template>
 
 <script>
@@ -104,6 +110,11 @@ export default {
       }
       this.currentSort = s;
     },
+
+    topFunction: function () {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    },
   },
 
   computed: {
@@ -131,6 +142,22 @@ export default {
         return 0;
       });
     },
+  },
+
+  mounted() {
+    window.onscroll = function () {
+      let mybutton = document.getElementById("GoToTop");
+
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    };
+  },
+
+  unmounted() {
+    window.onscroll = null;
   },
 };
 </script>
@@ -187,6 +214,21 @@ a {
     content: "⇅";
     // Add space between icon and text
     margin-left: 0.5rem;
+  }
+}
+
+.toTop {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  opacity: 0.65;
+  z-index: 99;
+  &::after {
+    content: "▲";
+  }
+  &:hover {
+    opacity: 1;
   }
 }
 </style>

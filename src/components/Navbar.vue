@@ -9,15 +9,22 @@
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
         <router-link class="navbar-item" :to="{ name: 'home' }">
-          <a class="navbar-item"> Home </a>
+          <a class="navbar-item"> Accueil </a>
+        </router-link>
+
+        <router-link class="navbar-item" :to="{ name: 'players' }">
+          <a class="navbar-item"> Joueurs </a>
+        </router-link>
+
+        <router-link class="navbar-item" :to="{ name: 'clubs' }">
+          <a class="navbar-item"> Clubs </a>
         </router-link>
 
         <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link"> More </a>
+          <a class="navbar-link"> Plus </a>
 
           <div class="navbar-dropdown">
-            <router-link class="navbar-item" :to="{ name: 'players' }"> Joueurs </router-link>
-            <router-link class="navbar-item" :to="{ name: 'clubs' }"> Clubs </router-link>
+            <router-link class="navbar-item" :to="{ name: 'news' }"> News </router-link>
             <hr class="navbar-divider" />
             <router-link class="navbar-item" :to="{ name: 'rick' }"> Report an issue </router-link>
           </div>

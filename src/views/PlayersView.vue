@@ -1,13 +1,12 @@
 <template>
   <TheHeader />
   <div class="container">
-    <p>Players</p>
     <PlayersTable :items="players" conditions="isGlobal" itemType="players" />
   </div>
 </template>
 
 <script>
-import TheHeader from "@/components/TheHeader.vue";
+import TheHeader from "@/components/Navbar.vue";
 import PlayersTable from "@/components/ItemsTable.vue";
 
 export default {
@@ -32,7 +31,7 @@ export default {
         return b.points.officiels - a.points.officiels;
       });
 
-      this.players = players;
+      this.players = players
 
       console.log(players);
     },

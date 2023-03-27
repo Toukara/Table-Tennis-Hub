@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import TheHeader from "@/components/TheHeader.vue";
+import TheHeader from "@/components/Navbar.vue";
 
 export default {
   name: "RickView",
