@@ -1,4 +1,4 @@
-# Lorem Impsum
+# Table Tennis Hub
 
 This website is still in development. That means that it is not yet ready for public use.
 
@@ -20,7 +20,7 @@ Cloned the backend repository and follow the instructions in the README.md file.
 1. Clone the repo
 
 ```sh
-git clone https://github.com/Toukara/TTScraping-front
+git clone https://github.com/Toukara/Table-Tennis-Hub
 ```
 
 2. Install packages
